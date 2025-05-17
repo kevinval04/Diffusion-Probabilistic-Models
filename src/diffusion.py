@@ -82,6 +82,7 @@ class GaussianDiffusion(nn.Module):
             loss = F.smooth_l1_loss(noise, predicted_noise)
         else:
             raise NotImplementedError()
+            
         return loss
 
     ####################################################################################################################

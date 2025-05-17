@@ -13,18 +13,18 @@ unet:
   num_res_blocks: 2
 ddim:
   0:
-    ddim_sampling_steps: 20
-    calculate_fid: true
-    num_fid_sample: 6000
+    ddim_sampling_steps: 10
+    calculate_fid: false
+    num_fid_sample: 100
     generate_image: true
 inferencer:
   dataset: cifar10
-  batch_size: 128
+  batch_size: 8
   clip: true
-  num_samples_per_image: 64
-  num_images_to_generate: 10
-  ddpm_fid_estimate: true
-  ddpm_num_fid_samples: 60000
+  num_samples_per_image: 16
+  num_images_to_generate: 5
+  ddpm_fid_estimate: false
+  ddpm_num_fid_samples: 100
   return_all_step: true
   make_denoising_gif: true
-  num_gif: 50
+  num_gif: 30

@@ -1,0 +1,31 @@
+type: perceiver
+
+unet:
+  image_size: 32
+  dim: 128
+  latent_dim: 512
+  num_latents: 128
+  depth: 12
+  logits_dim: 128
+
+ddim:
+  0:
+    ddim_sampling_steps: 20
+    sample_every: 10000            # match UNet's value
+    calculate_fid: true
+    num_fid_sample: 30000          # match UNet
+    eta: 0
+    save: true
+
+trainer:
+  dataset: cifar10
+  batch_size: 1
+  lr: 0.0002
+  total_step: 5000
+  save_and_sample_every: 2500
+  num_samples: 16
+  fid_estimate_batch_size: 128
+  ddpm_fid_score_estimate_every: null
+  ddpm_num_fid_samples: null
+  tensorboard: true
+  clip: true                       # match original UNet (was "both")

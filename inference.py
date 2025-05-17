@@ -1,10 +1,11 @@
 from src import model_torch
 from src import model_original
+from src import model_perceiver
 from src.diffusion import GaussianDiffusion, DDIM_Sampler
 from src.inferencer import Inferencer
 import yaml
 import argparse
-
+from src.model_perceiver import PerceiverWrapper
 
 def main(args):
     with open(args.config, 'r') as f:
@@ -18,6 +19,15 @@ def main(args):
         unet = model_original.Unet(**unet_cfg).to(args.device)
     elif config['type'] == 'torch':
         unet = model_torch.Unet(**unet_cfg).to(args.device)
+    elif config['type'] == 'perceiver':
+        unet = PerceiverWrapper(
+            input_shape=(3, unet_cfg['image_size'], unet_cfg['image_size']),
+            dim=unet_cfg.get('dim', 32),
+            latent_dim=unet_cfg.get('latent_dim', 512),
+            num_latents=unet_cfg.get('num_latents', 64),
+            depth=unet_cfg.get('depth', 6),
+            logits_dim=unet_cfg.get('logits_dim', 3072)
+        ).to(args.device)
     else:
         unet = None
         print("Unet type must be one of ['original', 'torch']")
